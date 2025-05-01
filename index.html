@@ -81,17 +81,17 @@
 <body>
   <div id="verifying-screen">
     <div class="loader"></div>
-    <h2>Verifying Device...     Version: 4</h2>
+    <h2>Verifying Device...     Version: 5</h2>
     <p>Please wait</p>
   </div>
 
   <div id="verified-screen" class="hidden">
     <div class="verification-icon"></div>
-    <h2>Device Verification    [v--4] </h2>
+    <h2>Device Verification  V-5</h2>
     <p>Verification Successful</p>
     <p>Your device has been verified.</p>
-    <p id="ip-address">IP address: </p>
-    <p id="device-fingerprint">DFPV: </p>
+    <p id="ip-address">Your IP address: </p>
+    <p id="device-fingerprint">Your Device Fingerprint: </p>
     <button class="btn" onclick="redirectToBot()">Continue to Bot</button>
   </div>
 
@@ -114,19 +114,41 @@
       return fingerprint;
     }
 
+    // Function to check if IP matches the saved IP for the user
+    function checkSameDevice(ip, userId) {
+      const savedIp = localStorage.getItem(userId);
+      if (savedIp && savedIp === ip) {
+        return true;  // Same device detected
+      } else {
+        localStorage.setItem(userId, ip);  // Save new IP
+        return false;
+      }
+    }
+
     // Display verification details on page load
     window.onload = async function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const userId = urlParams.get('user_id');  // Get user ID from the URL query parameter
+
       // Fetch IP and Fingerprint
       const ip = await getIpAddress();
       const fingerprint = getDeviceFingerprint();
 
       // Log for debugging purposes
+      console.log('User ID:', userId);
       console.log('IP Address:', ip);
       console.log('Device Fingerprint:', fingerprint);
 
+      // Check if the device is the same
+      const isSameDevice = checkSameDevice(ip, userId);
+
+      if (isSameDevice) {
+        alert("Same device detected.");
+      }
+
       // Display IP and Fingerprint on the page
-      document.getElementById("ip-address").textContent = `Your IP address: ${ip}`;
-      document.getElementById("device-fingerprint").textContent = `Your device: ${fingerprint}`;
+      document.getElementById("ip-address").textContent = `Your current IP address: ${ip}`;
+      document.getElementById("device-fingerprint").textContent = `Your device fingerprint: ${fingerprint}`;
 
       // Hide verifying screen and show verified screen
       document.getElementById("verifying-screen").classList.add("hidden");
