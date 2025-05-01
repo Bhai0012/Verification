@@ -4,15 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Device Verification</title>
-  
-  <!-- Prevent browser caching -->
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
-  
-  <!-- FingerprintJS Library -->
-  <script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs-pro@3.3.0/dist/fp.min.js"></script>
-  
   <style>
     body {
       margin: 0;
@@ -88,52 +79,50 @@
     }
   </style>
 </head>
-
 <body>
   <div id="verifying-screen">
     <div class="loader"></div>
     <h2>Verifying Device...</h2>
     <p>Please wait</p>
   </div>
-  
+
   <div id="verified-screen" class="hidden">
     <div class="verification-icon"></div>
     <h2>Device Verification</h2>
     <p>Verification Successful</p>
     <p>Your device has been verified.</p>
-    <p id="ip-address">Your current IP address: </p>
-    <p id="device-fingerprint">Device Fingerprint: </p>
-    <button class="btn" onclick="redirectToBot()">Continue to Bot</button>
+    <p id="ip-address"></p>
+    <button class="btn" onclick="window.location.href='https://t.me/DemoTestng_00010Bot'">Continue to Bot</button>
   </div>
 
   <script>
-    // Fetching the user's IP address
-    fetch('https://api.ipify.org?format=json')
-      .then(response => response.json())
-      .then(data => {
-        document.getElementById("ip-address").textContent = "Your current IP address: " + data.ip;
-      })
-      .catch(error => {
-        console.error('Error fetching IP address:', error);
-        document.getElementById("ip-address").textContent = "Unable to fetch IP address.";
-      });
+    // Function to fetch the user's IP address
+    function getIpAddress() {
+      return fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => data.ip);
+    }
 
-    // Initialize FingerprintJS to get the device fingerprint
-    FingerprintJS.load().then(fingerprintJS => {
-      fingerprintJS.get().then(result => {
-        document.getElementById("device-fingerprint").textContent = "Device Fingerprint: " + result.visitorId;
-      });
-    });
+    // Function to get device fingerprint (simplified for this demo)
+    function getDeviceFingerprint() {
+      return navigator.userAgent; // You can improve this by using libraries like FingerprintJS
+    }
 
-    // Show verification success screen after a delay
-    setTimeout(() => {
+    // Wait for the document to load before proceeding
+    window.onload = async function() {
+      // Fetch IP and Fingerprint
+      const ip = await getIpAddress();
+      const fingerprint = getDeviceFingerprint();
+
+      // Display IP and fingerprint after verifying
       document.getElementById("verifying-screen").classList.add("hidden");
       document.getElementById("verified-screen").classList.remove("hidden");
-    }, 3000); // 3 seconds delay
 
-    // Function to redirect to the Telegram bot after clicking the "Continue to Bot" button
-    function redirectToBot() {
-      window.open("https://t.me/DemoTestng_00010Bot", "_blank");
+      // Display the IP address and fingerprint in the success screen
+      document.getElementById("ip-address").textContent = `Your current IP address: ${ip}`;
+      
+      // Optional: Log or store fingerprint for verification purposes
+      console.log('Device Fingerprint:', fingerprint);
     }
   </script>
 </body>
