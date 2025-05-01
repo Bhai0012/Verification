@@ -1,123 +1,121 @@
-<!DOCTYPE html>  
-<html lang="en">  
-<head>  
-  <meta charset="UTF-8" />  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
-  <title>Device Verification</title>  
-  <style>  
-    body {  
-      margin: 0;  
-      background-color: #0a0f0c;  
-      font-family: Arial, sans-serif;  
-      color: #ccc;  
-      display: flex;  
-      align-items: center;  
-      justify-content: center;  
-      height: 100vh;  
-      flex-direction: column;  
-    }  
-    .hidden {  
-      display: none;  
-    }  
-
-    .loader {  
-      border: 6px solid #1a1f1c;  
-      border-top: 6px solid #3498db;  
-      border-radius: 50%;  
-      width: 60px;  
-      height: 60px;  
-      animation: spin 1s linear infinite;  
-      margin-bottom: 20px;  
-    }  
-
-    @keyframes spin {  
-      0% { transform: rotate(0deg); }  
-      100% { transform: rotate(360deg); }  
-    }  
-
-    .verification-icon {  
-      width: 100px;  
-      height: 100px;  
-      background-color: #2d5979;  
-      border-radius: 50%;  
-      display: flex;  
-      align-items: center;  
-      justify-content: center;  
-      margin-bottom: 20px;  
-    }  
-
-    .verification-icon::before {  
-      content: "✓";  
-      font-size: 50px;  
-      color: #0a0f0c;  
-    }  
-
-    h2 {  
-      margin: 10px 0 5px;  
-      color: #ccc;  
-    }  
-
-    p {  
-      margin: 0;  
-      color: #888;  
-    }  
-
-    .btn {  
-      margin-top: 30px;  
-      padding: 12px 25px;  
-      background-color: #2d5979;  
-      border: none;  
-      border-radius: 25px;  
-      color: #ccc;  
-      font-size: 16px;  
-      cursor: pointer;  
-    }  
-
-    .btn:hover {  
-      background-color: #3c6c93;  
-    }  
-  </style>  
-</head>  
-<body>  
-  <div id="verifying-screen">  
-    <div class="loader"></div>  
-    <h2>Verifying Device...</h2>  
-    <p>Please wait</p>  
-  </div>  
-  <div id="verified-screen" class="hidden">  
-    <div class="verification-icon"></div>  
-    <h2>Device Verification</h2>  
-    <p>Verification Successful</p>  
-    <p>Your device has been verified.</p>  
-    <p>Your current IP address: <span id="ip-address">Loading...</span></p>  
-    <button class="btn">Continue to Bot</button>  
-  </div>  
-
-  <script>  
-    // Fetch the user's IP address using the IPify API
-    function fetchIP() {
-      fetch('https://api.ipify.org?format=json')
-        .then(response => response.json())
-        .then(data => {
-          // Display the IP address in the span with id 'ip-address'
-          document.getElementById('ip-address').innerText = data.ip;
-        })
-        .catch(error => {
-          console.error('Error fetching IP address:', error);
-          document.getElementById('ip-address').innerText = 'Unable to fetch IP address.';
-        });
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Device Verification</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #0a0f0c;
+      font-family: Arial, sans-serif;
+      color: #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+    .hidden {
+      display: none;
     }
 
-    // Show the verification success screen and fetch the IP address
-    setTimeout(() => {  
-      document.getElementById("verifying-screen").classList.add("hidden");  
-      document.getElementById("verified-screen").classList.remove("hidden");  
+    .loader {
+      border: 6px solid #1a1f1c;
+      border-top: 6px solid #3498db;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
 
-      // Fetch and display the IP address after the verification screen is shown
-      fetchIP();
-    }, 3000); // 3 seconds delay  
-  </script>  
-</body>  
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .verification-icon {
+      width: 100px;
+      height: 100px;
+      background-color: #2d5979;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .verification-icon::before {
+      content: "✓";
+      font-size: 50px;
+      color: #0a0f0c;
+    }
+
+    h2 {
+      margin: 10px 0 5px;
+      color: #ccc;
+    }
+
+    p {
+      margin: 0;
+      color: #888;
+    }
+
+    .btn {
+      margin-top: 30px;
+      padding: 12px 25px;
+      background-color: #2d5979;
+      border: none;
+      border-radius: 25px;
+      color: #ccc;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #3c6c93;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="verifying-screen">
+    <div class="loader"></div>
+    <h2>Verifying Device...</h2>
+    <p>Please wait</p>
+  </div>
+
+  <div id="verified-screen" class="hidden">
+    <div class="verification-icon"></div>
+    <h2>Device Verification</h2>
+    <p>Verification Successful</p>
+    <p>Your device has been verified.</p>
+    <p>Your current IP address: <span id="ip-address">Loading...</span></p>
+    <button class="btn">Continue to Bot</button>
+  </div>
+
+  <script>
+    // Fetch the user's IP address using an external service
+    fetch('https://api.ipify.org?format=json')
+      .then(response => response.json())
+      .then(data => {
+        // Display the user's IP address
+        document.getElementById("ip-address").textContent = data.ip;
+      })
+      .catch(error => {
+        console.error('Error fetching IP address:', error);
+        document.getElementById("ip-address").textContent = 'Unable to retrieve IP address.';
+      });
+
+    setTimeout(() => {
+      console.log('Timeout triggered');
+      document.getElementById("verifying-screen").classList.add("hidden");
+      document.getElementById("verified-screen").classList.remove("hidden");
+    }, 3000); // 3 seconds delay
+  </script>
+</body>
 </html>
+
 
 
