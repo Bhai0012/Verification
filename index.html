@@ -95,23 +95,29 @@
 
   <script>  
     // Fetch the user's IP address using the IPify API
-    fetch('https://api.ipify.org?format=json')
-      .then(response => response.json())
-      .then(data => {
-        // Display the IP address in the span with id 'ip-address'
-        document.getElementById('ip-address').innerText = data.ip;
-      })
-      .catch(error => {
-        console.error('Error fetching IP address:', error);
-        document.getElementById('ip-address').innerText = 'Unable to fetch IP address.';
-      });
+    function fetchIP() {
+      fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+          // Display the IP address in the span with id 'ip-address'
+          document.getElementById('ip-address').innerText = data.ip;
+        })
+        .catch(error => {
+          console.error('Error fetching IP address:', error);
+          document.getElementById('ip-address').innerText = 'Unable to fetch IP address.';
+        });
+    }
 
-    // Show the verified screen after a 3-second delay
+    // Show the verification success screen and fetch the IP address
     setTimeout(() => {  
       document.getElementById("verifying-screen").classList.add("hidden");  
       document.getElementById("verified-screen").classList.remove("hidden");  
+
+      // Fetch and display the IP address after the verification screen is shown
+      fetchIP();
     }, 3000); // 3 seconds delay  
   </script>  
 </body>  
 </html>
+
 
