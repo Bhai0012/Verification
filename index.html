@@ -91,6 +91,7 @@
     <p>Verification Successful</p>
     <p>Your device has been verified.</p>
     <p id="ip-address">Your IP address: </p>
+    <p id="device-fingerprint">Your Device Fingerprint: </p>
     <button class="btn" onclick="redirectToBot()">Continue to Bot</button>
   </div>
 
@@ -123,8 +124,9 @@
       console.log('IP Address:', ip);
       console.log('Device Fingerprint:', fingerprint);
 
-      // Display IP on the page
+      // Display IP and Fingerprint on the page
       document.getElementById("ip-address").textContent = `Your current IP address: ${ip}`;
+      document.getElementById("device-fingerprint").textContent = `Your device fingerprint: ${fingerprint}`;
 
       // Hide verifying screen and show verified screen
       document.getElementById("verifying-screen").classList.add("hidden");
@@ -138,5 +140,3 @@
   </script>
 </body>
 </html>
-
-
