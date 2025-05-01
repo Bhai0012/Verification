@@ -10,6 +10,9 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   
+  <!-- FingerprintJS Library -->
+  <script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs-pro@3.3.0/dist/fp.min.js"></script>
+  
   <style>
     body {
       margin: 0;
@@ -98,7 +101,8 @@
     <h2>Device Verification</h2>
     <p>Verification Successful</p>
     <p>Your device has been verified.</p>
-    <p id="ip-address">Your IP address is: </p>
+    <p id="ip-address">Your current IP address: </p>
+    <p id="device-fingerprint">Device Fingerprint: </p>
     <button class="btn" onclick="redirectToBot()">Continue to Bot</button>
   </div>
 
@@ -113,6 +117,13 @@
         console.error('Error fetching IP address:', error);
         document.getElementById("ip-address").textContent = "Unable to fetch IP address.";
       });
+
+    // Initialize FingerprintJS to get the device fingerprint
+    FingerprintJS.load().then(fingerprintJS => {
+      fingerprintJS.get().then(result => {
+        document.getElementById("device-fingerprint").textContent = "Device Fingerprint: " + result.visitorId;
+      });
+    });
 
     // Show verification success screen after a delay
     setTimeout(() => {
